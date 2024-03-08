@@ -3,12 +3,25 @@
     <h1>Quiz Game</h1>
     <div v-if="!quizStarted">
       <CsvReaderComponent @questions-loaded="setQuestions" />
-      <button @click="startQuiz" :disabled="!questionsLoaded">
+      <input
+        type="number"
+        v-model.number="selectedQuestions"
+        :min="1"
+        :max="questions.length"
+      />
+      <button
+        @click="startQuiz"
+        :disabled="
+          !questionsLoaded ||
+          selectedQuestions < 1 ||
+          selectedQuestions > questions.length
+        "
+      >
         Start Quiz
       </button>
     </div>
     <div v-else>
-      <div v-if="currentQuestionIndex < questions.length">
+      <div v-if="currentQuestionIndex < selectedQuestions">
         <QuestionComponent
           :question="currentQuestion.question"
           :options="currentQuestion.options"
@@ -18,7 +31,7 @@
       </div>
       <div v-else>
         <h2>Quiz ended!</h2>
-        <p>Your score: {{ score }} / {{ questions.length }}</p>
+        <p>Your score: {{ score }} / {{ selectedQuestions }}</p>
       </div>
     </div>
   </div>
@@ -37,6 +50,7 @@ export default {
       questions: [],
       currentQuestionIndex: 0,
       score: 0,
+      selectedQuestions: 1, // Default to 1 question
     };
   },
   components: {
@@ -48,8 +62,19 @@ export default {
       this.questions = questions;
       this.questionsLoaded = true;
     },
+    shuffleQuestions() {
+      // Shuffle questions array
+      for (let i = this.questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [this.questions[i], this.questions[j]] = [
+          this.questions[j],
+          this.questions[i],
+        ];
+      }
+    },
     startQuiz() {
       this.quizStarted = true;
+      this.shuffleQuestions();
     },
     checkAnswer(selectedOption) {
       const currentQuestion = this.questions[this.currentQuestionIndex];
