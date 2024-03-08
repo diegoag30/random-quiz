@@ -2,7 +2,7 @@
   <div id="app">
     <h1>Quiz Game</h1>
     <div v-if="!quizStarted">
-      <input type="file" @change="loadQuestions" />
+      <CsvReaderComponent @questions-loaded="setQuestions" />
       <button @click="startQuiz" :disabled="!questionsLoaded">
         Start Quiz
       </button>
@@ -25,8 +25,9 @@
 </template>
 
 <script>
-import Papa from "papaparse";
+import CsvReaderComponent from "./components/CsvReaderComponent.vue";
 import QuestionComponent from "./components/QuestionComponent.vue";
+
 export default {
   name: "App",
   data() {
@@ -40,29 +41,12 @@ export default {
   },
   components: {
     QuestionComponent,
+    CsvReaderComponent,
   },
   methods: {
-    loadQuestions(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const csvContent = reader.result;
-          Papa.parse(csvContent, {
-            header: false,
-            skipEmptyLines: true,
-            complete: (results) => {
-              this.questions = results.data.map((row) => ({
-                question: row[0],
-                answer: row[1],
-                options: row.slice(2),
-              }));
-              this.questionsLoaded = true;
-            },
-          });
-        };
-        reader.readAsText(file);
-      }
+    setQuestions(questions) {
+      this.questions = questions;
+      this.questionsLoaded = true;
     },
     startQuiz() {
       this.quizStarted = true;
