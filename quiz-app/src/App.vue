@@ -9,12 +9,12 @@
     </div>
     <div v-else>
       <div v-if="currentQuestionIndex < questions.length">
-        <h2>{{ currentQuestion.question }}</h2>
-        <div v-for="(option, index) in currentQuestion.options" :key="index">
-          <button class="option-button" @click="checkAnswer(option)">
-            {{ option }}
-          </button>
-        </div>
+        <QuestionComponent
+          :question="currentQuestion.question"
+          :options="currentQuestion.options"
+          :answer="currentQuestion.answer"
+          @option-selected="checkAnswer"
+        />
       </div>
       <div v-else>
         <h2>Quiz ended!</h2>
@@ -26,7 +26,7 @@
 
 <script>
 import Papa from "papaparse";
-
+import QuestionComponent from "./components/QuestionComponent.vue";
 export default {
   name: "App",
   data() {
@@ -37,6 +37,9 @@ export default {
       currentQuestionIndex: 0,
       score: 0,
     };
+  },
+  components: {
+    QuestionComponent,
   },
   methods: {
     loadQuestions(event) {
@@ -88,21 +91,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
-
-.option-button {
-  display: block;
-  margin-bottom: 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 20px;
-  background-color: #555;
-  color: #fff;
-  cursor: pointer;
-  width: 100%;
-}
-
-.option-button:hover {
-  background-color: #777;
 }
 </style>
