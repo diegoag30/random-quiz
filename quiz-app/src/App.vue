@@ -22,6 +22,7 @@
     </div>
     <div v-else>
       <div v-if="currentQuestionIndex < selectedQuestions">
+        <h3>{{ counterStore.count }} / {{ selectedQuestions }}</h3>
         <QuestionComponent
           :question="currentQuestion.question"
           :options="currentQuestion.options"
@@ -32,6 +33,7 @@
       <div v-else>
         <h2>Quiz ended!</h2>
         <p>Your score: {{ score }} / {{ selectedQuestions }}</p>
+        {{ counterStore.reset() }}
       </div>
     </div>
   </div>
@@ -40,9 +42,14 @@
 <script>
 import CsvReaderComponent from "./components/CsvReaderComponent.vue";
 import QuestionComponent from "./components/QuestionComponent.vue";
+import { useCounterStore } from "./counterStore";
 
 export default {
   name: "App",
+  setup() {
+    const counterStore = useCounterStore();
+    return { counterStore };
+  },
   data() {
     return {
       questionsLoaded: false,
@@ -82,6 +89,7 @@ export default {
         this.score++;
       }
       this.currentQuestionIndex++;
+      this.counterStore.increment();
     },
   },
   computed: {
