@@ -33,6 +33,15 @@
       <div v-else>
         <h2>Quiz ended!</h2>
         <p>Your score: {{ score }} / {{ selectedQuestions }}</p>
+        <QuestionSummaryComponent
+          v-for="(question, index) in wrongAnswerStore.wrongQuestions"
+          :key="index"
+          :question="question.question"
+          :options="question.options"
+          :answer="question.answer"
+          :userAnswer="question.userAnswer"
+        />
+        <button @click="wrongAnswerStore.resetWrongQuestions">Reset</button>
         {{ counterStore.reset() }}
       </div>
     </div>
@@ -42,13 +51,16 @@
 <script>
 import CsvReaderComponent from "./components/CsvReaderComponent.vue";
 import QuestionComponent from "./components/QuestionComponent.vue";
+import QuestionSummaryComponent from "./components/QuestionSummaryComponent.vue";
 import { useCounterStore } from "./counterStore";
+import { useWrongAnswerStore } from "./wrongAnswerStore";
 
 export default {
   name: "App",
   setup() {
     const counterStore = useCounterStore();
-    return { counterStore };
+    const wrongAnswerStore = useWrongAnswerStore();
+    return { counterStore, wrongAnswerStore };
   },
   data() {
     return {
@@ -63,6 +75,7 @@ export default {
   components: {
     QuestionComponent,
     CsvReaderComponent,
+    QuestionSummaryComponent,
   },
   methods: {
     setQuestions(questions) {
@@ -87,6 +100,10 @@ export default {
       const currentQuestion = this.questions[this.currentQuestionIndex];
       if (selectedOption === currentQuestion.answer) {
         this.score++;
+      } else {
+        const wrongAnswerQuestion = currentQuestion;
+        wrongAnswerQuestion.userAnswer = selectedOption;
+        this.wrongAnswerStore.addWrongQuestion(wrongAnswerQuestion);
       }
       this.currentQuestionIndex++;
       this.counterStore.increment();
