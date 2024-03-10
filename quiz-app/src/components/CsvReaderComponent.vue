@@ -20,16 +20,17 @@ export default {
             header: false,
             skipEmptyLines: true,
             complete: (results) => {
-              const questions = results.data.map(
-                (row) => (
-                  console.log(row),
-                  {
-                    question: row[0],
-                    answer: row[1],
-                    options: row.slice(2),
-                  }
-                )
-              );
+              const questions = results.data.map((row) => {
+                // Filter out blank options
+                const options = row
+                  .slice(2)
+                  .filter((option) => option.trim() !== "");
+                return {
+                  question: row[0],
+                  answer: row[1],
+                  options: options,
+                };
+              });
               this.$emit("questions-loaded", questions);
             },
           });
