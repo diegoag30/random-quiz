@@ -102,6 +102,7 @@ export default {
     setQuestions(questions) {
       this.questions = questions;
       this.questionsLoaded = true;
+      this.selectedQuestions = this.questions.length;
     },
     shuffleQuestions() {
       // Shuffle questions array

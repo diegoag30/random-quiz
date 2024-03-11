@@ -5,7 +5,7 @@
       rel="stylesheet"
     />
   </head>
-  <div id="app">
+  <div id="app d-flex flex-column justify-content-center">
     <QuizComponent />
   </div>
 </template>
@@ -29,5 +29,14 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+html,
+body {
+  height: 100%;
+}
+.fill-height {
+  min-height: 100%;
+  height: auto !important; /* cross-browser */
+  height: 100%; /* cross-browser */
 }
 </style>
