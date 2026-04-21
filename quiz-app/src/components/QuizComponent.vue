@@ -39,7 +39,15 @@
     </div>
     <div v-else>
       <div v-if="currentQuestionIndex < selectedQuestions">
-        <h3>{{ counterStore.count }} / {{ selectedQuestions }}</h3>
+        <div class="progress-header">
+          <span class="progress-label">{{ counterStore.count + 1 }} / {{ selectedQuestions }}</span>
+          <div class="progress-bar-track">
+            <div
+              class="progress-bar-fill"
+              :style="{ width: progressPercent + '%' }"
+            ></div>
+          </div>
+        </div>
         <QuestionComponent
           :question="currentQuestion.question"
           :options="currentQuestion.options"
@@ -144,6 +152,9 @@ export default {
     currentQuestion() {
       return this.questions[this.currentQuestionIndex];
     },
+    progressPercent() {
+      return Math.round((this.currentQuestionIndex / this.selectedQuestions) * 100);
+    },
   },
 };
 </script>
@@ -170,5 +181,31 @@ export default {
 .quiz-number-input:focus {
   outline: none;
   border-color: #28a745;
+}
+
+.progress-header {
+  margin-bottom: 16px;
+}
+
+.progress-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 6px;
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 6px;
+  background-color: #333;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #28a745;
+  border-radius: 999px;
+  transition: width 0.3s ease;
 }
 </style>
