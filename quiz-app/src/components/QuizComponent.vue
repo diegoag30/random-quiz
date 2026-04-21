@@ -56,18 +56,27 @@
         />
       </div>
       <div v-else>
-        <h2>Quiz ended!</h2>
-        <p>Your score: {{ score }} / {{ selectedQuestions }}</p>
-        <QuestionSummaryComponent
-          v-for="(question, index) in wrongAnswerStore.wrongQuestions"
-          :key="index"
-          :question="question.question"
-          :options="question.options"
-          :answer="question.answer"
-          :userAnswer="question.userAnswer"
-        />
-        <button class="btn btn-success rounded-pill mb-2" @click="resetQuiz">
-          Reset
+        <div class="score-card" :class="scoreClass">
+          <div class="score-ring">
+            <span class="score-value">{{ score }}</span>
+            <span class="score-divider">/</span>
+            <span class="score-total">{{ selectedQuestions }}</span>
+          </div>
+          <p class="score-message">{{ scoreMessage }}</p>
+        </div>
+        <div v-if="wrongAnswerStore.wrongQuestions.length > 0" class="wrong-answers-section">
+          <h5 class="wrong-answers-title">Review wrong answers</h5>
+          <QuestionSummaryComponent
+            v-for="(question, index) in wrongAnswerStore.wrongQuestions"
+            :key="index"
+            :question="question.question"
+            :options="question.options"
+            :answer="question.answer"
+            :userAnswer="question.userAnswer"
+          />
+        </div>
+        <button class="btn btn-success rounded-pill px-4 mb-4" @click="resetQuiz">
+          Play again
         </button>
         {{ counterStore.reset() }}
       </div>
@@ -155,6 +164,19 @@ export default {
     progressPercent() {
       return Math.round((this.currentQuestionIndex / this.selectedQuestions) * 100);
     },
+    scoreClass() {
+      const pct = this.score / this.selectedQuestions;
+      if (pct >= 0.8) return "score-great";
+      if (pct >= 0.5) return "score-ok";
+      return "score-poor";
+    },
+    scoreMessage() {
+      const pct = this.score / this.selectedQuestions;
+      if (pct === 1) return "Perfect score!";
+      if (pct >= 0.8) return "Great job!";
+      if (pct >= 0.5) return "Not bad, keep practicing.";
+      return "Keep going, you'll get there!";
+    },
   },
 };
 </script>
@@ -207,5 +229,74 @@ export default {
   background-color: #28a745;
   border-radius: 999px;
   transition: width 0.3s ease;
+}
+
+.score-card {
+  border-radius: 20px;
+  padding: 36px 28px 28px;
+  margin-bottom: 24px;
+  border: 2px solid transparent;
+}
+
+.score-great {
+  background-color: #1a2e1a;
+  border-color: #28a745;
+}
+
+.score-ok {
+  background-color: #2e2a10;
+  border-color: #d4a017;
+}
+
+.score-poor {
+  background-color: #2e1a1a;
+  border-color: #dc3545;
+}
+
+.score-ring {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.score-value {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.score-great .score-value { color: #28a745; }
+.score-ok .score-value { color: #d4a017; }
+.score-poor .score-value { color: #dc3545; }
+
+.score-divider {
+  font-size: 2rem;
+  color: #888;
+}
+
+.score-total {
+  font-size: 2rem;
+  color: #aaa;
+}
+
+.score-message {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin: 0;
+}
+
+.wrong-answers-section {
+  margin-bottom: 20px;
+}
+
+.wrong-answers-title {
+  text-align: left;
+  color: #aaa;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
 }
 </style>
