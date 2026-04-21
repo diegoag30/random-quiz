@@ -1,6 +1,12 @@
 <template>
   <div>
-    <input type="file" @change="loadQuestions" />
+    <label for="formFile" class="form-label">Agregue un archivo csv</label>
+    <input
+      class="form-control"
+      type="file"
+      id="formFile"
+      @change="loadQuestions"
+    />
   </div>
 </template>
 
@@ -41,3 +47,11 @@ export default {
   },
 };
 </script>
+
+<style>
+#formFile {
+  background-color: #1e1e1e;
+  color: #fff; /* Text color */
+  border: none;
+}
+</style>

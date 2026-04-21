@@ -2,40 +2,39 @@
   <div class="container text-center">
     <div class="row">
       <div class="col align-self-center">
-        <h1>Quiz Game</h1>
+        <h1 class="--bs-tertiary-color">Quiz Game</h1>
       </div>
     </div>
-    <div class="row justify-content-center upload-section" v-if="!quizStarted">
-      <div class="column">
-        <div class="row py-1 my-1">
-          <CsvReaderComponent @questions-loaded="setQuestions" />
+    <div class="setup-card" v-if="!quizStarted">
+      <div class="row py-1 my-1">
+        <CsvReaderComponent @questions-loaded="setQuestions" />
+      </div>
+      <div class="row align-items-center py-1 my-1">
+        <div class="col">
+          <label>Indique la cantidad de preguntas:</label>
         </div>
-        <div class="row align-items-center py-1 my-1">
-          <div class="col">
-            <label>Indique la cantidad de preguntas:</label>
-          </div>
-          <div class="col-md-auto">
-            <input
-              type="number"
-              v-model.number="selectedQuestions"
-              :min="1"
-              :max="questions.length"
-            />
-          </div>
+        <div class="col-md-auto">
+          <input
+            class="quiz-number-input"
+            type="number"
+            v-model.number="selectedQuestions"
+            :min="1"
+            :max="questions.length"
+          />
         </div>
-        <div class="row justify-content-center">
-          <button
-            class="btn btn-success rounded-pill"
-            @click="startQuiz"
-            :disabled="
-              !questionsLoaded ||
-              selectedQuestions < 1 ||
-              selectedQuestions > questions.length
-            "
-          >
-            Start Quiz
-          </button>
-        </div>
+      </div>
+      <div class="row justify-content-center mt-2">
+        <button
+          class="btn btn-success rounded-pill px-4"
+          @click="startQuiz"
+          :disabled="
+            !questionsLoaded ||
+            selectedQuestions < 1 ||
+            selectedQuestions > questions.length
+          "
+        >
+          Start Quiz
+        </button>
       </div>
     </div>
     <div v-else>
@@ -59,7 +58,7 @@
           :answer="question.answer"
           :userAnswer="question.userAnswer"
         />
-        <button class="btn btn-success rounded-pill" @click="resetQuiz">
+        <button class="btn btn-success rounded-pill mb-2" @click="resetQuiz">
           Reset
         </button>
         {{ counterStore.reset() }}
@@ -150,5 +149,26 @@ export default {
 </script>
 
 <style>
-/* Add your styles here */
+.setup-card {
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 16px;
+  padding: 32px 28px;
+  text-align: left;
+}
+
+.quiz-number-input {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #4a4a4a;
+  border-radius: 8px;
+  padding: 6px 10px;
+  width: 80px;
+  text-align: center;
+}
+
+.quiz-number-input:focus {
+  outline: none;
+  border-color: #28a745;
+}
 </style>

@@ -25,11 +25,11 @@ export default {
 </script>
 <style>
 .question-summary {
-  background-color: #f4f4f4;
+  background-color: #1e1e1e;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
   margin-bottom: 10px; /* Add some bottom margin to create space between cards */
-  border-bottom: 2px solid #2c3e50; /* Add a bottom border between cards */
+  border: 1px solid #313538; /* Add a bottom border between cards */
 }
 
 .options-list {

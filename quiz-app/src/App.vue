@@ -1,11 +1,5 @@
 <template>
-  <head>
-    <link
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <div id="app d-flex flex-column justify-content-center">
+  <div id="app" class="d-flex flex-column justify-content-center">
     <QuizComponent />
   </div>
 </template>
@@ -22,21 +16,25 @@ export default {
 </script>
 
 <style>
+body {
+  height: 100%;
+  background-color: #1e1e1e;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 40px 16px 60px;
+  max-width: 660px;
+  margin: 0 auto;
 }
 html,
-body {
-  height: 100%;
-}
 .fill-height {
   min-height: 100%;
-  height: auto !important; /* cross-browser */
-  height: 100%; /* cross-browser */
+  height: auto !important;
+  height: 100%;
 }
 </style>
