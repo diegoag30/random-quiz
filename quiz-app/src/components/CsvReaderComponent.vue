@@ -30,6 +30,7 @@
         <p class="drop-zone__label" v-else>{{ fileName }}</p>
       </div>
     </div>
+    <p v-if="dropError" class="drop-zone__error">{{ dropError }}</p>
 
     <div class="format-section">
       <button class="format-toggle" @click.stop="showFormat = !showFormat">
@@ -99,6 +100,7 @@ export default {
     return {
       isDragging: false,
       fileName: null,
+      dropError: null,
       showFormat: false,
       exampleRows: [
         { question: "What is the capital of France?", answer: "Paris", options: ["Paris", "London", "Berlin"] },
@@ -109,8 +111,14 @@ export default {
   methods: {
     onDrop(event) {
       this.isDragging = false;
+      this.dropError = null;
       const file = event.dataTransfer.files[0];
-      if (file) this.parseFile(file);
+      if (!file) return;
+      if (!file.name.endsWith(".csv") && file.type !== "text/csv") {
+        this.dropError = "Only CSV files are accepted.";
+        return;
+      }
+      this.parseFile(file);
     },
     onFileChange(event) {
       const file = event.target.files[0];
@@ -205,6 +213,12 @@ export default {
 .drop-zone__link {
   color: #28a745;
   text-decoration: underline;
+}
+
+.drop-zone__error {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  color: #e05555;
 }
 
 /* Format section */
