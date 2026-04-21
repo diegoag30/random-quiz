@@ -6,24 +6,18 @@
       </div>
     </div>
     <div class="setup-card" v-if="!quizStarted">
-      <div class="row py-1 my-1">
-        <CsvReaderComponent @questions-loaded="setQuestions" />
+      <CsvReaderComponent @questions-loaded="setQuestions" />
+      <div class="setup-row">
+        <label>Indique la cantidad de preguntas:</label>
+        <input
+          class="quiz-number-input"
+          type="number"
+          v-model.number="selectedQuestions"
+          :min="1"
+          :max="questions.length"
+        />
       </div>
-      <div class="row align-items-center py-1 my-1">
-        <div class="col">
-          <label>Indique la cantidad de preguntas:</label>
-        </div>
-        <div class="col-md-auto">
-          <input
-            class="quiz-number-input"
-            type="number"
-            v-model.number="selectedQuestions"
-            :min="1"
-            :max="questions.length"
-          />
-        </div>
-      </div>
-      <div class="row justify-content-center mt-2">
+      <div class="setup-row setup-row--center">
         <button
           class="btn btn-success rounded-pill px-4"
           @click="startQuiz"
@@ -188,6 +182,18 @@ export default {
   border-radius: 16px;
   padding: 32px 28px;
   text-align: left;
+}
+
+.setup-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.setup-row--center {
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .quiz-number-input {

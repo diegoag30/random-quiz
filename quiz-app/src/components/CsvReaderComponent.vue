@@ -262,7 +262,6 @@ export default {
 }
 
 .format-table-wrapper {
-  overflow-x: auto;
   margin-bottom: 12px;
 }
 
@@ -270,7 +269,6 @@ export default {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.78rem;
-  white-space: nowrap;
 }
 
 .format-table th {

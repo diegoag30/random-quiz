@@ -28,7 +28,7 @@ body {
   background-color: #1e1e1e;
   color: #fff;
   padding: 40px 16px 60px;
-  max-width: 660px;
+  max-width: 780px;
   margin: 0 auto;
 }
 html,
