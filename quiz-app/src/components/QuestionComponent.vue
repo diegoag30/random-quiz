@@ -51,9 +51,11 @@ export default {
 }
 
 .question-text {
-  font-size: 1.3rem;
-  font-weight: 600;
-  line-height: 1.5;
+  font-family: 'Sora', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
   margin-bottom: 28px;
 }
 
@@ -75,7 +77,9 @@ export default {
   cursor: pointer;
   width: 100%;
   text-align: left;
+  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
+  font-weight: 500;
   transition: background-color 0.15s ease, transform 0.12s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
